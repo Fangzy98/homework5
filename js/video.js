@@ -22,6 +22,14 @@ slider.oninput = function() {
     // var value = (this.value - this.min) / (this.max - this.min) * 100;
     output.innerHTML = this.value;
     vid.volume = this.value / 100;
+    if (vid.volume == 0) {
+        vid.muted = true;
+        muteButton.textContent = 'Unmute';
+    } 
+    else {
+        vid.muted = false;
+        muteButton.textContent = 'Mute';
+    }
 };
 
 
@@ -47,34 +55,41 @@ muteButton.addEventListener("click", function() {
         muteButton.textContent = 'Mute';
         slider.value = tempVolume;
         output.innerHTML = slider.value;
+        vid.volume = tempVolume / 100;
     }
     
 });
 
 slowerButton.addEventListener("click", function() {
 
-    if (vid.playbackRate >= 1) {
-        vid.playbackRate -= 0.5;
+    if (vid.playbackRate == 2) {
+        vid.playbackRate = 1;
+    }
+    else if (vid.playbackRate == 1){
+        vid.playbackRate = 0.5;
     }
     else {
-        alert("Video is at slowest speed!" + vid.playbackRate);
+        alert("Video is at slowest speed!");
     }
     
 });
 
 fasterButton.addEventListener("click", function() {
 
-    if (vid.playbackRate < 2) {
-        vid.playbackRate += 0.5;
+    if (vid.playbackRate == 0.5) {
+        vid.playbackRate = 1;
+    }
+    else if (vid.playbackRate == 1) {
+        vid.playbackRate = 2;
     }
     else {
-        alert("Video is at fastest speed!" + vid.playbackRate);
+        alert("Video is at fastest speed!");
     }
 });
 
 skipButton.addEventListener("click", function() {
     vid.currentTime += 15;
-    if (vid.currentTime == vid.duration) {
+    if (vid.currentTime >= vid.duration) {
         vid.load();
         // vid.currentTime = 0;
         // vid.pause();
